@@ -1,29 +1,83 @@
 {
   "name": "setup-fluttergen",
   "version": "0.1.0",
-  "description": "GitHub Action to set up FlutterGen CLI",
-  "author": "FlutterGen",
   "private": true,
+  "description": "GitHub Action to set up FlutterGen CLI",
   "license": "MIT",
-  "main": "./src/index.ts",
+  "author": "FlutterGen",
+  "type": "module",
   "exports": {
     ".": "./dist/index.js"
   },
+  "main": "./src/index.ts",
   "scripts": {
-    "build": "bun build index.ts --outdir dist",
-    "dev": "bun run index.ts"
+    "bake": "bun build ./src/index.ts --outdir dist --target node --sourcemap=external",
+    "dev": "node ./dist/index.js",
+    "fmt": "bun prettier --write .",
+    "fmt:check": "bun prettier --check .",
+    "lint": "eslint ./src/**/*.ts",
+    "lint:fix": "eslint ./src/**/*.ts --fix",
+    "prepare": "lefthook install"
   },
-  "engines": {
-    "node": ">=20"
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "endOfLine": "lf",
+    "plugins": [
+      "prettier-plugin-packagejson"
+    ],
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "github",
+      "import"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:github/recommended",
+      "plugin:import/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "i18n-text/no-en": "off"
+    },
+    "root": true
   },
   "dependencies": {
     "@actions/cache": "^3.2.4",
     "@actions/core": "^1.10.1",
     "@actions/tool-cache": "^2.0.1",
-    "execa": "^9.3.1",
-    "semver": "^7.6.3"
+    "@types/semver": "^7.5.8",
+    "execa": "^9.3.1"
   },
   "devDependencies": {
+    "@types/node": "^22.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-github": "^5.0.1",
+    "eslint-plugin-import": "2.29.1",
+    "lefthook": "1.7.14",
+    "prettier": "^3.3.3",
+    "prettier-eslint": "^16.3.0",
+    "prettier-plugin-packagejson": "2.5.2",
     "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

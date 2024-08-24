@@ -1,0 +1,12 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: '*'
+      exclude:
+        - .prettierignore
+        - dist/**/*
+        - node_modules/**/*
+        - bun.lockb
+      stage_fixed: true
+      run: bun prettier --write {staged_files}
