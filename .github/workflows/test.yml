@@ -1,0 +1,97 @@
+name: Test
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup FlutterGen (Cache save)
+        id: setup-fluttergen-cache-save
+        uses: ./
+        with:
+          version: 5.6.0
+          cache-key: fluttergen-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
+
+      - name: Setup FlutterGen (Cache restore)
+        id: setup-fluttergen-cache-restore
+        uses: ./
+        with:
+          version: 5.6.0
+          cache-key: fluttergen-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
+
+      - name: Setup FlutterGen (No cache restore and save)
+        id: setup-fluttergen-no-cache
+        uses: ./
+        with:
+          version: 5.6.0
+          cache: false
+
+      - name: Check output version
+        run: |
+          if [ "${{ steps.setup-fluttergen-no-cache.outputs.version }}" != "5.6.0" ]; then
+            echo "Version mismatch"
+            exit 1
+          fi
+
+  test-with-version-file:
+    strategy:
+      matrix:
+        file:
+          - name: .tool-versions (fluttergen 5.6.0)
+            file: .tool-versions
+            run: echo "fluttergen 5.6.0" > .tool-versions
+          - name: .tool-versions (fluttergen5.6.0)
+            file: .tool-versions
+            run: echo "fluttergen5.6.0" > .tool-versions
+          - name: .tool-versions (fluttergen  5.6.0)
+            file: .tool-versions
+            run: echo "fluttergen  5.6.0" > .tool-versions
+          - name: .mise.toml (fluttergen = '5.6.0')
+            file: .mise.toml
+            run: echo "[tools]\nfluttergen = '5.6.0'" > .mise.toml
+          - name: .mise.toml (fluttergen='5.6.0')
+            file: .mise.toml
+            run: echo "[tools]\nfluttergen='5.6.0'" > .mise.toml
+          - name: .mise.toml (fluttergen  =  '5.6.0')
+            file: .mise.toml
+            run: echo "[tools]\nfluttergen  =  '5.6.0'" > .mise.toml
+          - name: .mise.toml (fluttergen = "5.6.0")
+            file: .mise.toml
+            run: echo "[tools]\nfluttergen = \"5.6.0\"" > .mise.toml
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare version file
+        run: ${{ matrix.file.run }}
+
+      - name: Setup FlutterGen
+        id: setup-fluttergen
+        uses: ./
+
+      - name: Check output version
+        run: |
+          if [ "${{ steps.setup-fluttergen.outputs.version }}" != "5.6.0" ]; then
+            echo "Version mismatch"
+            exit 1
+          fi

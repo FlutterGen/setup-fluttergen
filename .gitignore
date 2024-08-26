@@ -1,0 +1,9 @@
+# misc
+.DS_Store
+
+# ide
+.idea/
+.vscode/
+
+# node
+node_modules/

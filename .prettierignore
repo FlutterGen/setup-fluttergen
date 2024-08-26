@@ -1,0 +1,4 @@
+.github/CODEOWNERS
+dist/
+node_modules/
+bun.lockb

@@ -1,0 +1,26 @@
+name: 'Setup FlutterGen'
+author: 'FlutterGen'
+description: 'Set up FlutterGen CLI in your GitHub Actions workflow'
+inputs:
+  version:
+    description: 'FlutterGen version (optional, will be detected from project root .tool-versions or .mise.toml if not provided)'
+    required: false
+  cache:
+    description: 'Cache FlutterGen CLI (default: true)'
+    required: false
+    default: 'true'
+  cache-key:
+    description: 'Cache key for FlutterGen CLI'
+    required: false
+  cache-path:
+    description: 'Cache path for FlutterGen CLI'
+    required: false
+outputs:
+  version:
+    description: 'Installed FlutterGen version'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+branding:
+  icon: 'package'
+  color: 'blue'
