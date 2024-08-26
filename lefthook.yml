@@ -8,6 +8,9 @@ pre-commit:
         - .github/CODEOWNERS
         - dist/**/*
         - node_modules/**/*
+        - .node-version
+        - .tool-versions
+        - LICENSE
         - bun.lockb
       stage_fixed: true
       run: bun prettier --write {staged_files}

@@ -10,7 +10,7 @@ To install the tools using asdf, run the following command:
 
 ```shell
 # asdf
-asdf i
+asdf install
 
 # mise
 mise i
