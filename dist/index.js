@@ -63745,7 +63745,7 @@ var tool_cache = __toESM(require_tool_cache(), 1);
 var cache = __toESM(require_cache2(), 1);
 var import_semver = __toESM(require_semver3(), 1);
 import {existsSync, readFileSync as readFileSync3, chmodSync} from "fs";
-import {join} from "path";
+import {join, dirname} from "path";
 async function run() {
   try {
     checkPlatformCompatibility();
@@ -63780,7 +63780,10 @@ async function run() {
     const installedPath = await installFlutterGen(version, cacheEnabled, cacheKey, cachePath);
     core2.info(`FlutterGen installed: ${installedPath}`);
     await makeExecutable(installedPath);
-    await execa("fluttergen", ["--version"], { stdio: "inherit" });
+    const { stdout } = await execa("fluttergen", ["--version"]);
+    if (stdout !== `FlutterGen v${version}`) {
+      throw new Error(`commnad doesn't work as expected: ${stdout}`);
+    }
     core2.setOutput("version", version);
   } catch (error2) {
     if (error2 instanceof Error) {
@@ -63835,9 +63838,9 @@ async function installFlutterGen(version, cacheEnabled, cacheKey, cachePath) {
 }
 async function makeExecutable(installedPath) {
   const fluttergenPath = join(installedPath, "fluttergen");
-  chmodSync(fluttergenPath, 755);
-  core2.addPath(installedPath);
+  chmodSync(fluttergenPath, "755");
+  core2.addPath(dirname(fluttergenPath));
 }
 run();
 
-//# debugId=2ECF789E3C76642064756E2164756E21
+//# debugId=882A08D3CC4BC75964756E2164756E21
