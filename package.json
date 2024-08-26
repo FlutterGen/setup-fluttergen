@@ -1,6 +1,6 @@
 {
   "name": "setup-fluttergen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "GitHub Action to set up FlutterGen CLI",
   "license": "MIT",
