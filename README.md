@@ -9,7 +9,7 @@ Install `fluttergen` command in GitHub Actions.
 # Usage
 
 ```yaml
-- uses: FluttterGen/setup-fluttergen@v1
+- uses: FlutterGen/setup-fluttergen@v1
   with:
     version: 5.6.0
 ```

@@ -1,6 +1,6 @@
 name: 'Setup FlutterGen'
 author: 'FlutterGen'
-description: 'Set up FlutterGen CLI in your GitHub Actions workflow'
+description: 'Setup FlutterGen CLI in your GitHub Actions workflow'
 inputs:
   version:
     description: 'FlutterGen version (optional, will be detected from project root .tool-versions or .mise.toml if not provided)'
