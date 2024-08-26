@@ -5,6 +5,7 @@ pre-commit:
       glob: '*'
       exclude:
         - .prettierignore
+        - .github/CODEOWNERS
         - dist/**/*
         - node_modules/**/*
         - bun.lockb
