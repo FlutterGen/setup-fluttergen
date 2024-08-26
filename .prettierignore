@@ -1,4 +1,7 @@
 .github/CODEOWNERS
 dist/
 node_modules/
+.node-version
+.tool-versions
 bun.lockb
+LICENSE
