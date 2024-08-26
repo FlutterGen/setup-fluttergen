@@ -3,7 +3,7 @@ import { getInput, setOutput, setFailed, info, addPath } from '@actions/core';
 import { downloadTool, extractTar } from '@actions/tool-cache';
 import { restoreCache, saveCache } from '@actions/cache';
 import { existsSync, readFileSync, chmodSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { valid } from 'semver';
 
 async function run() {
@@ -50,7 +50,10 @@ async function run() {
 
     await makeExecutable(installedPath);
 
-    await execa('fluttergen', ['--version'], { stdio: 'inherit' });
+    const { stdout } = await execa('fluttergen', ['--version']);
+    if (stdout !== `FlutterGen v${version}`) {
+      throw new Error(`commnad doesn't work as expected: ${stdout}`);
+    }
 
     setOutput('version', version);
   } catch (error) {
@@ -120,8 +123,8 @@ async function installFlutterGen(
 
 async function makeExecutable(installedPath: string): Promise<void> {
   const fluttergenPath = join(installedPath, 'fluttergen');
-  chmodSync(fluttergenPath, 755);
-  addPath(installedPath);
+  chmodSync(fluttergenPath, '755');
+  addPath(dirname(fluttergenPath));
 }
 
 run();
