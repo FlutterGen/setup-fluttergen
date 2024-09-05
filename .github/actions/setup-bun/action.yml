@@ -9,4 +9,4 @@ runs:
 
     - name: Bun Install
       shell: bash
-      run: bun i --frozen-lockfile
+      run: bun i --frozen-lockfile --ignore-scripts
