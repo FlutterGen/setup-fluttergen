@@ -70,7 +70,7 @@
     "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-github": "5.0.2",
-    "eslint-plugin-import": "2.30.0",
+    "eslint-plugin-import": "2.31.0",
     "lefthook": "1.7.18",
     "prettier": "3.3.3",
     "prettier-eslint": "16.3.0",
