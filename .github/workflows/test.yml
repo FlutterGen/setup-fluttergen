@@ -17,6 +17,9 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
+        version:
+          - 5.6.0
+          - 5.11.0
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     steps:
@@ -27,26 +30,26 @@ jobs:
         id: setup-fluttergen-cache-save
         uses: ./
         with:
-          version: 5.6.0
+          version: ${{ matrix.version }}
           cache-key: fluttergen-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
 
       - name: Setup FlutterGen (Cache restore)
         id: setup-fluttergen-cache-restore
         uses: ./
         with:
-          version: 5.6.0
+          version: ${{ matrix.version }}
           cache-key: fluttergen-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}
 
       - name: Setup FlutterGen (No cache restore and save)
         id: setup-fluttergen-no-cache
         uses: ./
         with:
-          version: 5.6.0
+          version: ${{ matrix.version }}
           cache: false
 
       - name: Check output version
         run: |
-          if [ "${{ steps.setup-fluttergen-no-cache.outputs.version }}" != "5.6.0" ]; then
+          if [ "${{ steps.setup-fluttergen-no-cache.outputs.version }}" != "${{ matrix.version }}" ]; then
             echo "Version mismatch"
             exit 1
           fi

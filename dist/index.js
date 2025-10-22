@@ -65407,8 +65407,9 @@ async function run() {
     import_core2.info(`FlutterGen installed: ${installedPath}`);
     await makeExecutable(installedPath);
     const { stdout } = await execa("fluttergen", ["--version"]);
-    if (stdout !== `FlutterGen v${version}`) {
-      throw new Error(`commnad doesn't work as expected: ${stdout}`);
+    const versionMatch = stdout.match(/^(?:FlutterGen|\[FlutterGen])\s+v(\d+\.\d+\.\d+)/);
+    if (!versionMatch || versionMatch[1] !== version) {
+      throw new Error(`command doesn't work as expected: ${stdout}`);
     }
     import_core2.setOutput("version", version);
   } catch (error) {
@@ -65469,4 +65470,4 @@ async function makeExecutable(installedPath) {
 }
 run();
 
-//# debugId=63C1617D204A37BF64756E2164756E21
+//# debugId=47175D5F5770A55164756E2164756E21

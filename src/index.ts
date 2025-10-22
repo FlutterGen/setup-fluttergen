@@ -51,8 +51,9 @@ async function run() {
     await makeExecutable(installedPath);
 
     const { stdout } = await execa('fluttergen', ['--version']);
-    if (stdout !== `FlutterGen v${version}`) {
-      throw new Error(`commnad doesn't work as expected: ${stdout}`);
+    const versionMatch = stdout.match(/^(?:FlutterGen|\[FlutterGen])\s+v(\d+\.\d+\.\d+)/);
+    if (!versionMatch || versionMatch[1] !== version) {
+      throw new Error(`command doesn't work as expected: ${stdout}`);
     }
 
     setOutput('version', version);
