@@ -11,6 +11,6 @@ pre-commit:
         - .node-version
         - .tool-versions
         - LICENSE
-        - bun.lockb
+        - bun.lock
       stage_fixed: true
       run: bun prettier --write {staged_files}
