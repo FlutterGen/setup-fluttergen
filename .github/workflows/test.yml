@@ -24,7 +24,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup FlutterGen (Cache save)
         id: setup-fluttergen-cache-save
@@ -83,7 +83,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Prepare version file
         run: ${{ matrix.file.run }}
